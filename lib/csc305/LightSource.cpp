@@ -5,8 +5,8 @@ namespace csc305{
 
   // Default Constructor
   LightSource::LightSource(){
-    glm::vec3 pos_ = new glm::vec3(0,0,0);
-    float intensity_
+    pos_ = new glm::vec3(0,0,0);
+    intensity_ = 1;
   }
 
   //main Constructor
