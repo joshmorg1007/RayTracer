@@ -10,7 +10,8 @@ namespace csc305{
   }
 
   //main Constructor
-  LightSource::LightSource(glm::vec3 pos, float intensity){
+  LightSource::LightSource(std::string name, glm::vec3 pos, float intensity){
+    name_ = name;
     pos_ = pos;
     intensity_ = intensity;
   }

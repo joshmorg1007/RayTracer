@@ -1,4 +1,5 @@
 #include "glm.hpp"
+#include <string>
 #ifndef lightsource_H
 #define lightsource_H
 
@@ -10,7 +11,7 @@ namespace seng305{
       LightSource();
 
       // Main Constructor
-      LightSource(glm::vec3 pos, float intensity);
+      LightSource(std::string name, glm::vec3 pos, float intensity);
 
       //Move Constructor
       LightSource(LightSource && other);
@@ -31,6 +32,7 @@ namespace seng305{
       // Attributes
       glm::vec3 pos_;
       float intensity_;
+      std::string name_;
     };
 }
 
