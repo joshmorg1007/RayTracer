@@ -10,7 +10,7 @@ namespace seng305{
       Sphere();
 
       // Main Constructor
-      Sphere(glm::vec3 pos, glm::vec3 scale, glm::vec3 color, float Ka_, float Kd_, float Ks_, float Kr_, int specExp_);
+      Sphere(glm::vec3 pos, glm::vec3 scale, glm::vec3 color, float Ka, float Kd, float Ks, float Kr, int specExp);
 
       //Move Constructor
       Sphere(Sphere && other);
