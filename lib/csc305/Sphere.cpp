@@ -16,7 +16,8 @@ namespace csc305{
   }
 
   //main Constructor
-  Sphere::Sphere(glm::vec3 pos, glm::vec3 scale, glm::vec3 color, float Ka, float Kd, float Ks, float Kr, int specExp){
+  Sphere::Sphere(std::string name, glm::vec3 pos, glm::vec3 scale, glm::vec3 color, float Ka, float Kd, float Ks, float Kr, int specExp){
+    name_ = name;
     pos_ = pos;
     scale_ = scale;
     color_ = color;

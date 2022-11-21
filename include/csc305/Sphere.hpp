@@ -1,4 +1,5 @@
 #include "glm.hpp"
+#include <string>
 #ifndef sphere_H
 #define sphere_H
 
@@ -10,7 +11,7 @@ namespace seng305{
       Sphere();
 
       // Main Constructor
-      Sphere(glm::vec3 pos, glm::vec3 scale, glm::vec3 color, float Ka, float Kd, float Ks, float Kr, int specExp);
+      Sphere(std::string name, glm::vec3 pos, glm::vec3 scale, glm::vec3 color, float Ka, float Kd, float Ks, float Kr, int specExp);
 
       //Move Constructor
       Sphere(Sphere && other);
@@ -29,6 +30,7 @@ namespace seng305{
 
     private:
       // Attributes
+      std::string name_;
       glm::vec3 pos_;
       glm::vec3 scale_;
       glm::vec3 color_;
@@ -37,6 +39,7 @@ namespace seng305{
       float Ks_;
       float Kr_;
       int specExp_;
+      std::string name_;
     };
 }
 
