@@ -7,9 +7,12 @@
 #ifndef InputParser_H
 #define InputParser_H
 
-namespace seng305{
+namespace csc305{
     class InputParser{
     public:
+
+      //default Constructor
+      InputParser();
 
       // Main Constructor
       InputParser(std::string inputfilename);

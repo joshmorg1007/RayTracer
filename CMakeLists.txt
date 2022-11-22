@@ -15,6 +15,7 @@ add_library(ray_tracer_lib ${CMAKE_SOURCE_DIR}/lib/csc305/InputParser.cpp
 
 add_subdirectory(lib/thirdparty/glm-master)
 include_directories(lib/thirdparty/glm-master/glm)
+include_directories(lib/thirdparty/glm-master/glm/gtx)
 
 # Add include DIr
 target_include_directories(ray_tracer_lib PUBLIC

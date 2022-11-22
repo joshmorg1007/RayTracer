@@ -15,7 +15,7 @@ namespace csc305{
 
   //Get Scene
   Scene InputParser::getScene(){
-    return Scene();
+    return scene_;
   }
 
   //Deconstructor
@@ -41,7 +41,6 @@ namespace csc305{
       std::istringstream line_stream(line);
       std::string current;
       std::getline(line_stream, current, ' ');
-      std::cout << current;//Debug
 
       if(current == "NEAR"){
         std::getline(line_stream, current, ' ');

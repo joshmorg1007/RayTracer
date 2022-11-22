@@ -77,11 +77,11 @@ namespace csc305{
         return bot_;
       }
 
-      float getNColumns(){
+      int getNColumns(){
         return nColumns_;
       }
 
-      float getNRows(){
+      int getNRows(){
         return nRows_;
       }
 
