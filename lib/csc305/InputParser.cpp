@@ -3,14 +3,20 @@
 namespace csc305{
   //Public
 
+  //default Constructor
+  InputParser::InputParser(){
+    scene_ = Scene();
+  }
 
   //main Constructor
   InputParser::InputParser(std::string inputfilename){
-    Scene scene_ = parseFile(inputfilename);
+    scene_ = parseFile(inputfilename);
   }
 
   //Get Scene
-  Scene getScene();
+  Scene InputParser::getScene(){
+    return Scene();
+  }
 
   //Deconstructor
   InputParser::~InputParser() = default;
@@ -18,13 +24,13 @@ namespace csc305{
   //Private
 
   //Parse new file
-  Scene parseFile(std::string inputfilename){
+  Scene InputParser::parseFile(std::string inputfilename){
     std::fstream fs(inputfilename);
     std::string line;
 
     Camera cam;
-    Sphere spheres = new Sphere[30];
-    LightSource lights = new LightSource[30];
+    Sphere* spheres = new Sphere[30];
+    LightSource* lights = new LightSource[30];
     int numSpheres = 0;
     int numLights = 0;
     glm::vec3 BG;
@@ -35,153 +41,150 @@ namespace csc305{
       std::istringstream line_stream(line);
       std::string current;
       std::getline(line_stream, current, ' ');
-      cout << current;//Debug
+      std::cout << current;//Debug
 
-      switch(current){
-        case "NEAR":
-          std::getline(line_stream, current, ' ');
-          cam.setNearPlane(std::stof(current));
-          break;
-        case "LEFT":
-          std::getline(line_stream, current, ' ');
-          cam.setLeftCorner(std::stof(current));
-          break;
-        case "RIGHT":
-          std::getline(line_stream, current, ' ');
-          cam.setRightCorner(std::stof(current));
-          break;
-        case "BOTTOM":
-          std::getline(line_stream, current, ' ');
-          cam.setBot(std::stof(current));
-          break;
-        case "TOP":
-          std::getline(line_stream, current, ' ');
-          cam.setTop(std::stof(current));
-          break;
-        case "RES":
-          std::getline(line_stream, current, ' ');
-          int x = std::stoi(current);
-          cam.setNColumns(x);
+      if(current == "NEAR"){
+        std::getline(line_stream, current, ' ');
+        cam.setNearPlane(std::stof(current));
+      }
+      else if(current == "LEFT"){
+        std::getline(line_stream, current, ' ');
+        cam.setLeftCorner(std::stof(current));
+      }
+      else if(current == "RIGHT"){
+        std::getline(line_stream, current, ' ');
+        cam.setRightCorner(std::stof(current));
+      }
 
-          std::getline(line_stream, current, ' ');
-          int y = std::stoi(current);
-          cam.setNRows(y);
-          break;
-        case "SPHERE":
-          Sphere sphere;
-          std::getline(line_stream, current, ' ');
-          sphere.setName(current);
+      else if(current == "BOTTOM"){
+        std::getline(line_stream, current, ' ');
+        cam.setBot(std::stof(current));
+      }
+      else if(current == "TOP"){
+        std::getline(line_stream, current, ' ');
+        cam.setTop(std::stof(current));
+      }
+      else if(current == "RES"){
+        std::getline(line_stream, current, ' ');
+        int x = std::stoi(current);
+        cam.setNColumns(x);
 
-          std::getline(line_stream, current, ' ');
-          float p_x = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        int y = std::stoi(current);
+        cam.setNRows(y);
+      }
+      else if(current == "SPHERE"){
+        Sphere sphere;
+        std::getline(line_stream, current, ' ');
+        sphere.setName(current);
 
-          std::getline(line_stream, current, ' ');
-          float p_y = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float p_x = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float p_z = std::stof(current);
-          sphere.setPos(glm::vec3(p_x, p_y, p_z));
+        std::getline(line_stream, current, ' ');
+        float p_y = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float s_x = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float p_z = std::stof(current);
+        sphere.setPos(glm::vec3(p_x, p_y, p_z));
 
-          std::getline(line_stream, current, ' ');
-          float s_y = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float s_x = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float s_z = std::stof(current);
-          sphere.setScale(glm::vec3(s_x, s_y, s_z));
+        std::getline(line_stream, current, ' ');
+        float s_y = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float c_r = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float s_z = std::stof(current);
+        sphere.setScale(glm::vec3(s_x, s_y, s_z));
 
-          std::getline(line_stream, current, ' ');
-          float c_g = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float c_r = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float c_b = std::stof(current);
-          sphere.setColor(glm::vec3(c_r, c_g, c_b));
+        std::getline(line_stream, current, ' ');
+        float c_g = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          sphere.setKa(std::stof(current));
+        std::getline(line_stream, current, ' ');
+        float c_b = std::stof(current);
+        sphere.setColor(glm::vec3(c_r, c_g, c_b));
 
-          std::getline(line_stream, current, ' ');
-          sphere.setKd(std::stof(current));
+        std::getline(line_stream, current, ' ');
+        sphere.setKa(std::stof(current));
 
-          std::getline(line_stream, current, ' ');
-          sphere.setKs(std::stof(current));
+        std::getline(line_stream, current, ' ');
+        sphere.setKd(std::stof(current));
 
-          std::getline(line_stream, current, ' ');
-          sphere.setKr(std::stof(current));
+        std::getline(line_stream, current, ' ');
+        sphere.setKs(std::stof(current));
 
-          std::getline(line_stream, current, ' ');
-          sphere.setSpecExp(std::stoi(current));
+        std::getline(line_stream, current, ' ');
+        sphere.setKr(std::stof(current));
 
-          spheres[numSpheres] = sphere;
-          ++numSpheres;
-          break;
-        case "LIGHT":
-          LightSource light;
-          std::getline(line_stream, current, ' ');
-          light.setName(current);
+        std::getline(line_stream, current, ' ');
+        sphere.setSpecExp(std::stoi(current));
 
-          std::getline(line_stream, current, ' ');
-          float p_x = std::stof(current);
+        spheres[numSpheres] = sphere;
+        ++numSpheres;
+      }
+      else if( current == "LIGHT"){
+        LightSource light;
+        std::getline(line_stream, current, ' ');
+        light.setName(current);
 
-          std::getline(line_stream, current, ' ');
-          float p_y = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float p_x = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float p_z = std::stof(current);
-          light.setPos(glm::vec3(p_x, p_y, p_z));
+        std::getline(line_stream, current, ' ');
+        float p_y = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float i_r = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float p_z = std::stof(current);
+        light.setPos(glm::vec3(p_x, p_y, p_z));
 
-          std::getline(line_stream, current, ' ');
-          float i_g = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float i_r = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float i_b = std::stof(current);
-          light.setIntensity(glm::vec3(i_r, i_g, i_b));
+        std::getline(line_stream, current, ' ');
+        float i_g = std::stof(current);
 
-          lights[numLights] = light;
-          ++numLights;
-          break;
-        case "BACK":
-          std::getline(line_stream, current, ' ');
-          float c_r = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float i_b = std::stof(current);
+        light.setIntensity(glm::vec3(i_r, i_g, i_b));
 
-          std::getline(line_stream, current, ' ');
-          float c_g = std::stof(current);
+        lights[numLights] = light;
+        ++numLights;
+      }
+      else if (current == "BACK"){
+        std::getline(line_stream, current, ' ');
+        float c_r = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float c_b = std::stof(current);
-          sphere.setColor(glm::vec3(c_r, c_g, c_b));
+        std::getline(line_stream, current, ' ');
+        float c_g = std::stof(current);
 
-          BG = new glm::vec3(c_r, c_g, c_b);
-          break;
-        case "AMBIENT":
-          std::getline(line_stream, current, ' ');
-          float c_r = std::stof(current);
+        std::getline(line_stream, current, ' ');
+        float c_b = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float c_g = std::stof(current);
+        BG = glm::vec3(c_r, c_g, c_b);
+      }
+      else if (current == "AMBIENT"){
+        std::getline(line_stream, current, ' ');
+        float c_r = std::stof(current);
 
-          std::getline(line_stream, current, ' ');
-          float c_b = std::stof(current);
-          sphere.setColor(glm::vec3(c_r, c_g, c_b));
+        std::getline(line_stream, current, ' ');
+        float c_g = std::stof(current);
 
-          AM = new glm::vec3(c_r, c_g, c_b);
-          break;
-        case "OUTPUT":
-          std::getline(line_stream, current, ' ');
-          name = current;
-          break;
-        default:
-          cout << "Invalid Input Upon Parsing input file: ";
-          cout << first;
-          break;
+        std::getline(line_stream, current, ' ');
+        float c_b = std::stof(current);
+
+        AM = glm::vec3(c_r, c_g, c_b);
+      }
+      else if(current == "OUTPUT"){
+        std::getline(line_stream, current, ' ');
+        name = current;
+      }
+      else{
+        std::cout << "Invalid Input Upon Parsing input file: ";
+        std::cout << current;
       }
     }
     return Scene(cam, spheres, numSpheres, lights, numLights, BG, AM, name);

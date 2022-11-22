@@ -5,9 +5,9 @@ namespace csc305{
 
   // Default Constructor
   Sphere::Sphere(){
-    pos_ = new glm::vec3(0,0,0);
-    scale_ = new glm::vec3(0,0,0);
-    color_ = new glm::vec3(0,0,0);
+    pos_ = glm::vec3(0,0,0);
+    scale_ = glm::vec3(0,0,0);
+    color_ = glm::vec3(0,0,0);
     Ka_ = 0.0;
     Kd_ = 0.0;
     Ks_ = 0.0;
@@ -32,13 +32,13 @@ namespace csc305{
   Sphere::Sphere(Sphere && other) = default;
 
   //Move Operator
-  Sphere::Sphere & operator=(Sphere && other) = default;
+  Sphere & Sphere::operator=(Sphere && other) = default;
 
   //Copy Constructor
   Sphere::Sphere(const Sphere &) = default;
 
   //Copy Operator
-  Sphere::Sphere & operator=(const Sphere &) = default;
+  Sphere & Sphere::operator=(const Sphere &) = default;
 
   //Deconstructor
   Sphere::~Sphere() = default;

@@ -5,8 +5,8 @@ namespace csc305{
 
   // Default Constructor
   LightSource::LightSource(){
-    pos_ = new glm::vec3(0,0,0);
-    intensity_ = new glm::vec3(0,0,0);
+    pos_ = glm::vec3(0,0,0);
+    intensity_ = glm::vec3(0,0,0);
   }
 
   //main Constructor
@@ -20,13 +20,13 @@ namespace csc305{
   LightSource::LightSource(LightSource && other) = default;
 
   //Move Operator
-  LightSource::LightSource & operator=(LightSource && other) = default;
+  LightSource & LightSource::operator=(LightSource && other) = default;
 
   //Copy Constructor
   LightSource::LightSource(const LightSource &) = default;
 
   //Copy Operator
-  LightSource::LightSource & operator=(const LightSource &) = default;
+  LightSource & LightSource::operator=(const LightSource &) = default;
 
   //Deconstructor
   LightSource::~LightSource() = default;

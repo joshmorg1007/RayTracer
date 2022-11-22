@@ -10,25 +10,25 @@ namespace csc305{
     numSpheres_ = 0;
     lightSources_ = nullptr;
     numLights_ = 0;
-    backgroundColor_ = new glm::vec3(0,0,0);
-    ambientIntensity_ = 1.0;
+    backgroundColor_ = glm::vec3(0,0,0);
+    ambientIntensity_ = glm::vec3(0,0,0);
     output_ = "output.ppm";
   }
 
   //main Constructor
-  Scene::Scene(Camera camera, Sphere* spheres, int numSpheres, LightSource* lightSources, int numLights, glm::vec3 backgroundColor, float ambientIntensity, std::string output){
+  Scene::Scene(Camera camera, Sphere* spheres, int numSpheres, LightSource* lightSources, int numLights, glm::vec3 backgroundColor, glm::vec3 ambientIntensity, std::string output){
     camera_ = camera;
 
     spheres_ = new Sphere[numSpheres];
     for(int i = 0; i < numSpheres; i++){
-      spheres_[i] == spheres[i];
+      spheres_[i] = spheres[i];
     }
 
     numSpheres_ = numSpheres;
 
     lightSources_ = new LightSource[numLights];
     for(int i = 0; i < numLights; i++){
-      lightSources_[i] == lightSources[i];
+      lightSources_[i] = lightSources[i];
     }
 
     numLights_ = numLights;
@@ -57,7 +57,7 @@ namespace csc305{
   }
 
   //Move Operator
-  Scene::Scene & operator=(Scene && other){
+  Scene & Scene::operator=(Scene && other){
     delete [] spheres_;
     delete [] lightSources_;
 
@@ -97,7 +97,7 @@ namespace csc305{
   }
 
   //Copy Operator
-  Scene::Scene & operator=(const Scene & other){
+  Scene & Scene::operator=(const Scene & other){
     camera_ = other.camera_;
     backgroundColor_ = other.backgroundColor_;
     ambientIntensity_ = other.ambientIntensity_;
@@ -114,7 +114,7 @@ namespace csc305{
     for(int i = 0; i < numLights_; i++){
       lightSources_[i] = other.lightSources_[i];
     }
-    return this*;
+    return *this;
   }
 
   //Deconstructor
