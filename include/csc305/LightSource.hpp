@@ -28,6 +28,19 @@ namespace seng305{
       //Deconstructor
       ~LightSource();
 
+      //setters
+      void setPos(glm::vec3 pos){
+        pos_ = pos;
+      }
+
+      void setIntensity(float intensity){
+        intensity_ = intensity;
+      }
+
+      void setName(std::string name){
+        name_ = name;
+      }
+
     private:
       // Attributes
       glm::vec3 pos_;
