@@ -38,6 +38,11 @@ namespace csc305{
     std::string name;
 
     while(std::getline(fs, line)){
+      if(line == ""){
+        continue;
+      }
+      std::regex e("\\s+");
+      line = std::regex_replace(line, e, " ");
       std::istringstream line_stream(line);
       std::string current;
       std::getline(line_stream, current, ' ');

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <regex>
 #ifndef InputParser_H
 #define InputParser_H
 
