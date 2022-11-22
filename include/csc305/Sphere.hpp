@@ -3,7 +3,7 @@
 #ifndef sphere_H
 #define sphere_H
 
-namespace seng305{
+namespace csc305{
     class Sphere{
     public:
 
@@ -61,8 +61,45 @@ namespace seng305{
         Kr_ = Kr;
       }
 
-      boid setSpecExp(int specExp){
+      void setSpecExp(int specExp){
         specExp_ = specExp;
+      }
+
+      //getters
+      std::string getName(){
+        return name_;
+      }
+
+      glm::vec3 getPos(){
+        return pos_;
+      }
+
+      glm::vec3 getScale(){
+        return scale_;
+      }
+
+      glm::vec3 getColor(){
+        return color_;
+      }
+
+      float getKa(){
+        return Ka_;
+      }
+
+      float getKd(){
+        return Kd_;
+      }
+
+      float getKs(){
+        return Ks_;
+      }
+
+      float getKr(){
+        return Kr_;
+      }
+
+      int getSpecExp(){
+        return specExp_;
       }
 
     private:
