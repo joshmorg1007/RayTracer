@@ -29,13 +29,13 @@ namespace csc305{
   Camera::Camera(Camera && other) = default;
 
   //Move Operator
-  Camera::Camera & operator=(Camera && other) = default;
+  Camera & Camera::operator=(Camera && other) = default;
 
   //Copy Constructor
   Camera::Camera(const Camera &) = default;
 
   //Copy Operator
-  Camera::Camera & operator=(const Camera &) = default;
+  Camera & Camera::operator=(const Camera &) = default;
 
   //Deconstructor
   Camera::~Camera() = default;
