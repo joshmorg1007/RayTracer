@@ -27,6 +27,36 @@ namespace seng305{
       //Deconstructor
       ~Camera();
 
+      //setters
+      void setNearPlane(float nearPlane){
+        nearPlane_ = nearPlane;
+      }
+
+      void setLeftCorner(float leftCorner){
+        leftCorner_ = leftCorner;
+      }
+
+      void setRightCorner(float rightCorner){
+        rightCorner_ = rightCorner;
+      }
+
+      void setTop(float top){
+        top_ = top;
+      }
+
+      void setBot(float bot){
+        bot_ = bot;
+      }
+
+      void setNColumns(int nColumns){
+        nColumns_ = nColumns;
+      }
+
+      void setNRows(int nRows){
+        nRows_ = nRows;
+      }
+
+
     private:
       // Attributes
       float nearPlane_;
