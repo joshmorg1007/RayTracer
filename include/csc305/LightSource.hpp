@@ -3,7 +3,7 @@
 #ifndef lightsource_H
 #define lightsource_H
 
-namespace seng305{
+namespace csc305{
     class LightSource{
     public:
 
@@ -39,6 +39,19 @@ namespace seng305{
 
       void setName(std::string name){
         name_ = name;
+      }
+
+      //getters
+      glm::vec3 getPos(){
+        return pos_;
+      }
+
+      glm::vec3 getIntensity(){
+        return intensity_;
+      }
+
+      std::string getName(){
+        return name_;
       }
 
     private:
