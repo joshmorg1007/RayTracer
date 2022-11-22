@@ -28,6 +28,43 @@ namespace seng305{
       //Deconstructor
       ~Sphere();
 
+      //setters
+      void setName(std::string name){
+         name_ = name;
+      }
+
+      void setPos(glm::vec3 pos){
+        pos_ = pos;
+      }
+
+      void setScale(glm::vec3 scale){
+        scale_ = scale;
+      }
+
+      void setColor(glm::vec3 color){
+        color_ = color;
+      }
+
+      void setKa(float Ka){
+        Ka_ = Ka;
+      }
+
+      void setKd(float Kd){
+        Kd_ = Kd;
+      }
+
+      void setKs(float Ks){
+        Ks_ = Ks;
+      }
+
+      void setKr(float Kr){
+        Kr_ = Kr;
+      }
+
+      boid setSpecExp(int specExp){
+        specExp_ = specExp;
+      }
+
     private:
       // Attributes
       std::string name_;
@@ -39,7 +76,6 @@ namespace seng305{
       float Ks_;
       float Kr_;
       int specExp_;
-      std::string name_;
     };
 }
 
