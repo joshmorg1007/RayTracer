@@ -2,7 +2,7 @@
 #ifndef camera_H
 #define camera_H
 
-namespace seng305{
+namespace csc305{
     class Camera{
     public:
 
@@ -54,6 +54,35 @@ namespace seng305{
 
       void setNRows(int nRows){
         nRows_ = nRows;
+      }
+
+      //getter
+      float getNearPlane(){
+        return nearPlane_;
+      }
+
+      float getLeftCorner(){
+        return leftCorner_;
+      }
+
+      float getRightCorner(){
+        return rightCorner_;
+      }
+
+      float getTop(){
+        return top_;
+      }
+
+      float getBot(){
+        return bot_;
+      }
+
+      float getNColumns(){
+        return nColumns_;
+      }
+
+      float getNRows(){
+        return nRows_;
       }
 
 
