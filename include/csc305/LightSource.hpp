@@ -33,7 +33,7 @@ namespace seng305{
         pos_ = pos;
       }
 
-      void setIntensity(float intensity){
+      void setIntensity(glm::vec3 intensity){
         intensity_ = intensity;
       }
 
