@@ -12,6 +12,9 @@ namespace csc305{
       //Main Constructor
       PPM(int width, int height, unsigned char* pixels);
 
+      //Move Constructor
+      PPM(PPM && other);
+
       //Move Operator
       PPM & operator=(PPM && other);
 
@@ -33,6 +36,6 @@ namespace csc305{
       int height_;
       int width_;
       unsigned char* pixels_;
-    }
+    };
 }
 #endif

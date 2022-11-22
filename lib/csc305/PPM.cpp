@@ -19,7 +19,7 @@ namespace csc305{
   //Move Constructor
   PPM::PPM(PPM && other){
     delete [] pixels_;
-    pixels_ = others.pixels_;
+    pixels_ = other.pixels_;
     other.pixels_ = nullptr;
     height_ = other.height_;
     width_ = other.width_;
@@ -28,7 +28,7 @@ namespace csc305{
   //Move Operator
   PPM & PPM::operator=(PPM && other){
     delete [] pixels_;
-    pixels_ = others.pixels_;
+    pixels_ = other.pixels_;
     other.pixels_ = nullptr;
     height_ = other.height_;
     width_ = other.width_;
@@ -41,7 +41,7 @@ namespace csc305{
     height_ = other.height_;
     width_ = other.height_;
     pixels_ = new unsigned char[height_ * width_ * 3];
-    for(i = 0; i < height_*width_*3; i++){
+    for(int i = 0; i < height_*width_*3; i++){
       pixels_[i] = other.pixels_[i];
     }
   }
@@ -52,7 +52,7 @@ namespace csc305{
     height_ = other.height_;
     width_ = other.height_;
     pixels_ = new unsigned char[height_ * width_ * 3];
-    for(i = 0; i < height_*width_*3; i++){
+    for(int i = 0; i < height_*width_*3; i++){
       pixels_[i] = other.pixels_[i];
     }
     return *this;
@@ -86,7 +86,7 @@ namespace csc305{
   }
 
   //Deconstructor
-  PPM:~PPM(){
-    delete [] pixels;
+  PPM::~PPM(){
+    delete [] pixels_;
   }
 }
