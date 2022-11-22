@@ -11,7 +11,7 @@ namespace seng305{
       LightSource();
 
       // Main Constructor
-      LightSource(std::string name, glm::vec3 pos, float intensity);
+      LightSource(std::string name, glm::vec3 pos, glm::vec3 intensity);
 
       //Move Constructor
       LightSource(LightSource && other);
@@ -44,7 +44,7 @@ namespace seng305{
     private:
       // Attributes
       glm::vec3 pos_;
-      float intensity_;
+      glm::vec3 intensity_;
       std::string name_;
     };
 }
