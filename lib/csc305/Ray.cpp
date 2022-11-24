@@ -39,9 +39,9 @@ namespace csc305{
       glm::vec4 homoStart(start_.x, start_.y, start_.z, 1);
       glm::vec4 homoDir(dir_.x, dir_.y, dir_.z, 0);
 
-      glm::vec4 transfirmedStart = (transformMatrix * homoStart);
+      glm::vec4 transformedStart = (transformMatrix * homoStart);
       glm::vec4 transformedDir = (transformMatrix * homoDir);
-      return Ray(glm::vec3(transfirmedStart.x, transfirmedStart.y, transfirmedStart.z), glm::vec3(transformedDir.x, transformedDir.y, transformedDir.z));
+      return Ray(glm::vec3(transformedStart.x, transformedStart.y, transformedStart.z), glm::vec3(transformedDir.x, transformedDir.y, transformedDir.z));
     }
 
     //Private

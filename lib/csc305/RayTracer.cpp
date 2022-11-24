@@ -34,15 +34,13 @@ namespace csc305{
   void RayTracer::rayTraceScene(){
     int width = scene_.getCamera().getNColumns();
     int height = scene_.getCamera().getNRows();
-    unsigned char* pixels = new unsigned char [width*height*3];
+    glm::vec3* pixels = new glm::vec3 [width*height];
 
     for(int i = 0; i < height; i++){
-      for(int j = 0; j < width; j += 3){
+      for(int j = 0; j < width; j++){
         Ray ray = eyeToPixelRay(j, i, width, height);
         glm::vec3 color = raytrace(ray, 1);
-        pixels[i*width + j] = (unsigned char)color.x*256;
-        pixels[i*width + j + 1] = (unsigned char)color.y*256;
-        pixels[i*width + j + 2] = (unsigned char)color.z*256;
+        pixels[i*width + j] = color;
       }
     }
 
@@ -119,9 +117,15 @@ namespace csc305{
       if(!isBlocked){
         float temp =glm::dot(R, V);
         float temp2 = glm::dot(sphereUnitNormal,L);
-        glm::vec3 diffuse = intersectedSphere.getKd()*currentLight.getIntensity()*(temp2)*sphereColor;
-        glm::vec3 spec = intersectedSphere.getKs()*currentLight.getIntensity();
-        spec *= std::pow(temp, intersectedSphere.getSpecExp());
+        glm::vec3 spec(0,0,0);
+        glm::vec3 diffuse(0,0,0);
+        if(intersectedSphere.getKs() != 0.0){
+          spec = intersectedSphere.getKs()*currentLight.getIntensity();
+          spec *= std::pow(temp, intersectedSphere.getSpecExp());
+        }
+        if(intersectedSphere.getKd() != 0.0){
+          diffuse = intersectedSphere.getKd()*currentLight.getIntensity()*(temp2)*sphereColor;
+        }
         glm::vec3 pointLightContribution =  diffuse + spec;
         clocal += pointLightContribution;
       }
@@ -138,15 +142,12 @@ namespace csc305{
 
   Ray RayTracer::eyeToPixelRay(int c, int r, int nCols, int nRows){
     float H = scene_.getCamera().getTop();
-    float W = scene_.getCamera().getBot();
+    float W = scene_.getCamera().getRightCorner();
     float N = scene_.getCamera().getNearPlane();
 
     glm::vec3 eye(0,0,0); //might need to change this.
 
-    float uc = -W + W*(2*c/nCols);
-    float ur = -H + H*(2*r/nRows);
-
-    glm::vec3 dir(-N, W*((2*c/nCols)-1), H*((2*r/nRows)-1));
+    glm::vec3 dir(W*((2.0*c/nCols)-1.0), H*((2.0*r/nRows)-1.0), -N);
 
     return Ray(eye, dir);
   }

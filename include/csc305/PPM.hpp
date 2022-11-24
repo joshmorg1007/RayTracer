@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "glm.hpp"
 
 #ifndef ppm_h
 #define ppm_h
@@ -10,7 +11,7 @@ namespace csc305{
       PPM();
 
       //Main Constructor
-      PPM(int width, int height, unsigned char* pixels);
+      PPM(int width, int height, glm::vec3* pixels);
 
       //Move Constructor
       PPM(PPM && other);
@@ -35,7 +36,7 @@ namespace csc305{
       //Attributes
       int height_;
       int width_;
-      unsigned char* pixels_;
+      glm::vec3* pixels_;
     };
 }
 #endif

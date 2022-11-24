@@ -10,7 +10,7 @@ namespace csc305{
   }
 
   // Main Constructor
-  PPM::PPM(int width, int height, unsigned char* pixels){
+  PPM::PPM(int width, int height, glm::vec3* pixels){
     width_ = width;
     height_ = height;
     pixels_ = pixels;
@@ -40,7 +40,7 @@ namespace csc305{
     delete [] pixels_;
     height_ = other.height_;
     width_ = other.height_;
-    pixels_ = new unsigned char[height_ * width_ * 3];
+    pixels_ = new glm::vec3[height_ * width_ * 3];
     for(int i = 0; i < height_*width_*3; i++){
       pixels_[i] = other.pixels_[i];
     }
@@ -51,7 +51,7 @@ namespace csc305{
     delete [] pixels_;
     height_ = other.height_;
     width_ = other.height_;
-    pixels_ = new unsigned char[height_ * width_ * 3];
+    pixels_ = new glm::vec3[height_ * width_ * 3];
     for(int i = 0; i < height_*width_*3; i++){
       pixels_[i] = other.pixels_[i];
     }
@@ -77,8 +77,8 @@ namespace csc305{
 
       for( int i = 0 ; i < width_; i++)
       {
-        fprintf(fp," %d %d %d", pixels_[k],pixels_[k+1],pixels_[k+2]) ;
-        k = k + 3 ;
+        fprintf(fp," %d %d %d", (unsigned char)pixels_[k].x*255, (unsigned char)pixels_[k].y*255, (unsigned char)pixels_[k].z*255);
+        k++;
       }
       fprintf(fp,"\n") ;
     }

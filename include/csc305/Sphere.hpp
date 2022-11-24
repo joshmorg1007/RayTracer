@@ -1,5 +1,6 @@
 #include "glm.hpp"
 #include "Ray.hpp"
+#include "string_cast.hpp"
 #include <string>
 #ifndef sphere_H
 #define sphere_H
@@ -36,10 +37,12 @@ namespace csc305{
 
       void setPos(glm::vec3 pos){
         pos_ = pos;
+        inverseMatrix_ = calcInverseTransform();
       }
 
       void setScale(glm::vec3 scale){
         scale_ = scale;
+        inverseMatrix_ = calcInverseTransform();
       }
 
       void setColor(glm::vec3 color){

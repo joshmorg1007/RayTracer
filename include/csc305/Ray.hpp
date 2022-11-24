@@ -1,4 +1,6 @@
 #include "glm.hpp"
+#include "string_cast.hpp"
+#include <iostream>
 
 #ifndef ray_h
 #define ray_h
