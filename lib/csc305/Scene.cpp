@@ -123,6 +123,5 @@ namespace csc305{
     delete [] lightSources_;
   }
 
-
   //Private
 }

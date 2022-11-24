@@ -12,7 +12,7 @@ namespace csc305{
   // Main Constructor
   PPM::PPM(int width, int height, unsigned char* pixels){
     width_ = width;
-    height_ = height_;
+    height_ = height;
     pixels_ = pixels;
   }
 
@@ -58,7 +58,7 @@ namespace csc305{
     return *this;
   }
 
-  void PPM::save_imageP3(char* fname) {
+  void PPM::save_imageP3(const char* fname) {
     FILE *fp;
     const int maxVal=255;
 

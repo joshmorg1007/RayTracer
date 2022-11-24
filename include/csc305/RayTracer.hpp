@@ -1,8 +1,12 @@
 #include "Scene.hpp"
 #include "PPM.hpp"
+#include "Ray.hpp"
+#include "glm.hpp"
+#include <limits>
+#include <cmath>
 
-#ifndef ppm_h
-#define ppm_h
+#ifndef raytracer_h
+#define raytracer_h
 namespace csc305{
     class RayTracer{
     public:
@@ -28,14 +32,26 @@ namespace csc305{
       //Deconstructor
       ~RayTracer();
 
-      //Save Image
-      // Modified From Given Code
-      void save_imageP3(char* fname);
+      //RayTrace Scene
+      void rayTraceScene();
+
+      //save image
+      void saveImage();
 
     private:
       //Attributes
       Scene scene_;
       PPM ppm_;
+
+      // Recursive raytrace helper function
+      glm::vec3 raytrace(Ray ray, int depth);
+
+      // Helper function to get ray from eye to pixel
+      Ray eyeToPixelRay(int c, int r, int nCols, int nRows);
+
+      bool checkValidSolution(Ray ray);
+
+      float solveIntersection(Ray ray);
     };
 }
 #endif

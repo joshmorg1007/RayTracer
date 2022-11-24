@@ -34,7 +34,9 @@ namespace csc305{
       ~Scene();
 
       void printScene(){
-        std::string output = "Camera: \n    NEAR: ";
+
+        std::string output = std::to_string(camera_.getNColumns()) +" x " + std::to_string(camera_.getNRows()) + "\n";
+        output = output + "Camera: \n    NEAR: ";
         output = output + std::to_string(camera_.getNearPlane());
         output = output + "\n    LEFT: ";
         output = output + std::to_string(camera_.getLeftCorner());
@@ -73,6 +75,39 @@ namespace csc305{
         output = output + "\nAmbient Intensity: " + glm::to_string(ambientIntensity_);
         output = output + "\nOutput file: " + output_;
         std::cout << output;
+      }
+
+      //getters
+      Camera getCamera(){
+        return camera_;
+      }
+
+      Sphere getSphere(int index){
+        return spheres_[index];
+      }
+
+      int getNumSpheres(){
+        return numSpheres_;
+      }
+
+      LightSource getLight(int index){
+        return lightSources_[index];
+      }
+
+      int getNumLights(){
+        return numLights_;
+      }
+
+      glm::vec3 getBackgroundColor(){
+        return backgroundColor_;
+      }
+
+      glm::vec3 getAmbient(){
+        return ambientIntensity_;
+      }
+
+      std::string getOutput(){
+        return output_;
       }
 
     private:

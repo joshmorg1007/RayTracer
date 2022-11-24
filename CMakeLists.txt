@@ -12,6 +12,8 @@ add_library(ray_tracer_lib ${CMAKE_SOURCE_DIR}/lib/csc305/InputParser.cpp
                        ${CMAKE_SOURCE_DIR}/lib/csc305/Camera.cpp
                        ${CMAKE_SOURCE_DIR}/lib/csc305/Scene.cpp
                        ${CMAKE_SOURCE_DIR}/lib/csc305/PPM.cpp
+                       ${CMAKE_SOURCE_DIR}/lib/csc305/Ray.cpp
+                       ${CMAKE_SOURCE_DIR}/lib/csc305/RayTracer.cpp
                      )
 
 add_subdirectory(lib/thirdparty/glm-master)

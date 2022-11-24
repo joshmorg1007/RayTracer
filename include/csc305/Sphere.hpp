@@ -1,4 +1,5 @@
 #include "glm.hpp"
+#include "Ray.hpp"
 #include <string>
 #ifndef sphere_H
 #define sphere_H
@@ -102,6 +103,10 @@ namespace csc305{
         return specExp_;
       }
 
+      glm::mat4 getInverseTransform(){
+        return inverseMatrix_;
+      }
+
     private:
       // Attributes
       std::string name_;
@@ -113,6 +118,10 @@ namespace csc305{
       float Ks_;
       float Kr_;
       int specExp_;
+      glm::mat4 inverseMatrix_;
+
+      //getInvsere Transformation Matrix
+      glm::mat4 calcInverseTransform();
     };
 }
 

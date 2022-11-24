@@ -29,7 +29,7 @@ namespace csc305{
 
       //Save Image
       // Modified From Given Code
-      void save_imageP3(char* fname);
+      void save_imageP3(const char* fname);
 
     private:
       //Attributes

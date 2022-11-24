@@ -33,8 +33,8 @@ namespace csc305{
     LightSource* lights = new LightSource[30];
     int numSpheres = 0;
     int numLights = 0;
-    glm::vec3 BG;
-    glm::vec3 AM;
+    glm::vec3 BG(0,0,0);
+    glm::vec3 AM(0,0,0);
     std::string name;
 
     while(std::getline(fs, line)){
