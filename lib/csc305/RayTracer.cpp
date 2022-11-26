@@ -128,11 +128,11 @@ namespace csc305{
       //logic to check if intersections ray is blocked by another object
       bool isBlocked = false;
       for(int j = 0; j < scene_.getNumSpheres(); j++){
-        Sphere currentSphere = scene_.getSphere(i);
+        Sphere currentSphere = scene_.getSphere(j);
         Ray invertedRay = newRay.getInvertedRay(currentSphere.getInverseTransform());
         if(checkValidSolution(invertedRay)){
           float T = solveIntersection(invertedRay);
-          if(T <= 0.0001){
+          if(T <= -0.0001){
             continue;
           }
           isBlocked = true;
@@ -141,17 +141,16 @@ namespace csc305{
       }
       if(!isBlocked){
         float temp = glm::dot(R, V);
+        if(temp < 0.0){
+          temp = glm::dot(-R, V);
+        }
         glm::vec3 spec(0,0,0);
-        // need to fix
         if(intersectedSphere.getKs() != 0.0){
           spec = intersectedSphere.getKs()*currentLight.getIntensity();
           spec *= std::powf(temp, (float)intersectedSphere.getSpecExp());
         }
 
         float  normalDotLight = glm::dot(sphereUnitNormal, L);
-        if(normalDotLight <0){
-          normalDotLight = glm::dot(-sphereUnitNormal, L);
-        }
 
         glm::vec3 diffuse = intensity*normalDotLight*sphereColor*intersectedSphere.getKd();
 
@@ -174,7 +173,13 @@ namespace csc305{
     //std::cout << glm::to_string(reflectedContribution);
     //std::cout << "\n";
     clocal = glm::clamp(clocal, glm::vec3(0,0,0), glm::vec3(1,1,1));
-    return clocal + reflectedContribution * intersectedSphere.getKr();
+    if(intersectedSphere.getKr() != 0.0){
+      return clocal + reflectedContribution * intersectedSphere.getKr();
+    }
+    else{
+      return clocal;
+    }
+
   }
 
   Ray RayTracer::eyeToPixelRay(int c, int r, int nCols, int nRows){
@@ -211,7 +216,7 @@ namespace csc305{
     float t1 = -B/(A) + std::sqrt(B2 - A*C)/(A);
     float t2 = -B/(A) - std::sqrt(B2 - A*C)/(A);
 
-    if(t1 < t2){
+    if(t1 < t2 && glm::all(glm::greaterThan(glm::abs(start - ray.getRayPos(t1)), glm::vec3(0.00001, 0.00001, 0.00001)))){
       return t1;
     }
     else{
