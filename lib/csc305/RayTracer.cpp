@@ -56,7 +56,7 @@ namespace csc305{
 
   // Recursive raytrace helper function
   glm::vec3 RayTracer::raytrace(Ray ray, int depth){
-    const int maxDepth = 3; // might need to change to 3
+    const int maxDepth = 3;
     if(depth > maxDepth){
       return glm::vec3(0,0,0);
     }
@@ -93,15 +93,12 @@ namespace csc305{
 
     glm::vec3 collision_point = ray.getRayPos(minT);
     Sphere intersectedSphere = scene_.getSphere(minSphereIndex);
-    //Ray normalRay = ray.getInvertedRay(intersectedSphere.getInverseTransposeTransform());
-    //glm::vec3 sphereNormal =normalRay.getDir();
     glm::mat4 inverseTranspose = intersectedSphere.getInverseTransposeTransform();
     glm::vec3 normal = candidateInvertedRay.getRayPos(minT);
     glm::vec4 normalExtended = glm::vec4(normal.x, normal.y, normal.z, 0);
 
     glm::vec4 inverseTransposeNormalExtended = inverseTranspose * normalExtended;
     glm::vec3 sphereNormal = glm::vec3(inverseTransposeNormalExtended.x, inverseTransposeNormalExtended.y, inverseTransposeNormalExtended.z);
-    //glm::vec3 sphereNormal((collision_point.x - intersectedSphere.getPos().x),  collision_point.y - intersectedSphere.getPos().y, collision_point.z - intersectedSphere.getPos().z);
     glm::vec3 sphereUnitNormal = glm::normalize(sphereNormal);
 
     //local lighting equation
@@ -114,13 +111,8 @@ namespace csc305{
 
 
     // iterate through all lights
-
-    //std::cout << intersectedSphere.getName();
-    //std::cout << "\n";
     for(int i = 0; i < scene_.getNumLights(); i++){
       LightSource currentLight = scene_.getLight(i);
-      //std::cout << currentLight.getName();
-      //std::cout << "\n";
       glm::vec3 pos = currentLight.getPos();
       Ray newRay(collision_point, glm::normalize(pos - collision_point));
 
