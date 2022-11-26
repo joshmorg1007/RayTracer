@@ -38,11 +38,13 @@ namespace csc305{
       void setPos(glm::vec3 pos){
         pos_ = pos;
         inverseMatrix_ = calcInverseTransform();
+        calcInverseTransposeMatrix_ = calcInverseTransposeTransform();
       }
 
       void setScale(glm::vec3 scale){
         scale_ = scale;
         inverseMatrix_ = calcInverseTransform();
+        calcInverseTransposeMatrix_ = calcInverseTransposeTransform();
       }
 
       void setColor(glm::vec3 color){
@@ -110,6 +112,10 @@ namespace csc305{
         return inverseMatrix_;
       }
 
+      glm::mat3 getInverseTransposeTransform(){
+        return calcInverseTransposeMatrix_;
+      }
+
     private:
       // Attributes
       std::string name_;
@@ -122,9 +128,12 @@ namespace csc305{
       float Kr_;
       int specExp_;
       glm::mat4 inverseMatrix_;
+      glm::mat3 calcInverseTransposeMatrix_;
 
       //getInvsere Transformation Matrix
       glm::mat4 calcInverseTransform();
+
+      glm::mat4 calcInverseTransposeTransform();
     };
 }
 

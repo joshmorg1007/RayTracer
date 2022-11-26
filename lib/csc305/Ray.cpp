@@ -41,7 +41,7 @@ namespace csc305{
 
       glm::vec4 transformedStart = (transformMatrix * homoStart);
       glm::vec4 transformedDir = (transformMatrix * homoDir);
-      return Ray(glm::vec3(transformedStart.x, transformedStart.y, transformedStart.z), glm::vec3(transformedDir.x, transformedDir.y, transformedDir.z));
+      return Ray(glm::vec3(transformedStart.x, transformedStart.y, transformedStart.z), glm::vec3(transformedDir.x, transformedDir.y, transformedDir.z)); //removed normalization
     }
 
     //Private

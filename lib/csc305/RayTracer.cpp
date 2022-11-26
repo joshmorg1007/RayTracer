@@ -83,61 +83,96 @@ namespace csc305{
       return scene_.getBackgroundColor();
     }
 
-    glm::vec3 interection_point = ray.getRayPos(minT);
+    glm::vec3 collision_point = ray.getRayPos(minT);
     Sphere intersectedSphere = scene_.getSphere(minSphereIndex);
-    glm::vec3 sphereNormal(interection_point.x - intersectedSphere.getPos().x,  interection_point.y - intersectedSphere.getPos().y,interection_point.z - intersectedSphere.getPos().z);
-    glm::vec3 sphereUnitNormal = sphereNormal/(sphereNormal*sphereNormal);
+    //Ray normalRay = ray.getInvertedRay(intersectedSphere.getInverseTransposeTransform());
+    //glm::vec3 sphereNormal =normalRay.getDir();
+    glm::mat4 inverseTranspose = intersectedSphere.getInverseTransposeTransform();
+    glm::vec3 normal = collision_point-intersectedSphere.getPos();
+    glm::vec4 normalExtended = glm::vec4(normal.x, normal.y, normal.z, 1);
+
+    glm::vec4 inverseTransposeNormalExtended = inverseTranspose * normalExtended;
+    glm::vec3 sphereNormal = glm::vec3(inverseTransposeNormalExtended.x, inverseTransposeNormalExtended.y, inverseTransposeNormalExtended.z);
+    //glm::vec3 sphereNormal((collision_point.x - intersectedSphere.getPos().x),  collision_point.y - intersectedSphere.getPos().y, collision_point.z - intersectedSphere.getPos().z);
+    glm::vec3 sphereUnitNormal = glm::normalize(sphereNormal);
 
     //local lighting equation
     glm::vec3 sphereColor = intersectedSphere.getColor();
     glm::vec3 sceneAmbient = scene_.getAmbient();
-    glm::vec3 clocal = sceneAmbient*intersectedSphere.getKa()*sphereColor;
+    glm::vec3 clocal(0,0,0);
+    if(intersectedSphere.getKa() != 0.0){
+      clocal = sceneAmbient*intersectedSphere.getKa()*sphereColor;
+    }
+
 
     // iterate through all lights
 
+    //std::cout << intersectedSphere.getName();
+    //std::cout << "\n";
     for(int i = 0; i < scene_.getNumLights(); i++){
       LightSource currentLight = scene_.getLight(i);
+      //std::cout << currentLight.getName();
+      //std::cout << "\n";
       glm::vec3 pos = currentLight.getPos();
-      Ray newRay(interection_point, pos - interection_point);
+      Ray newRay(collision_point, glm::normalize(pos - collision_point));
 
       //for lighting equattions
-      glm::vec3 L = glm::normalize(pos - interection_point);
-      glm::vec3 V = glm::normalize(-interection_point);
+      glm::vec3 L = glm::normalize(pos - collision_point);
+      glm::vec3 V = glm::normalize(-collision_point);
       glm::vec3 R = glm::reflect(-L, sphereUnitNormal);
 
+      glm::vec3 intensity = currentLight.getIntensity();
+
+      //logic to check if intersections ray is blocked by another object
       bool isBlocked = false;
       for(int j = 0; j < scene_.getNumSpheres(); j++){
         Sphere currentSphere = scene_.getSphere(i);
         Ray invertedRay = newRay.getInvertedRay(currentSphere.getInverseTransform());
         if(checkValidSolution(invertedRay)){
+          float T = solveIntersection(invertedRay);
+          if(T <= 0.0001){
+            continue;
+          }
           isBlocked = true;
           break;
         }
       }
       if(!isBlocked){
-        float temp =glm::dot(R, V);
-        float temp2 = glm::dot(sphereUnitNormal,L);
+        float temp = glm::dot(R, V);
         glm::vec3 spec(0,0,0);
-        glm::vec3 diffuse(0,0,0);
+        // need to fix
         if(intersectedSphere.getKs() != 0.0){
           spec = intersectedSphere.getKs()*currentLight.getIntensity();
-          spec *= std::pow(temp, intersectedSphere.getSpecExp());
+          spec *= std::powf(temp, (float)intersectedSphere.getSpecExp());
         }
-        if(intersectedSphere.getKd() != 0.0){
-          diffuse = intersectedSphere.getKd()*currentLight.getIntensity()*(temp2)*sphereColor;
+
+        float  normalDotLight = glm::dot(sphereUnitNormal, L);
+        if(normalDotLight <0){
+          normalDotLight = glm::dot(-sphereUnitNormal, L);
         }
-        glm::vec3 pointLightContribution =  diffuse + spec;
+
+        glm::vec3 diffuse = intensity*normalDotLight*sphereColor*intersectedSphere.getKd();
+
+        glm::vec3 pointLightContribution =  spec + diffuse;
         clocal += pointLightContribution;
       }
     }
+    //clocal = glm::clamp(clocal, glm::vec3(0,0,0), glm::vec3(1,1,1));
+    //std::cout << glm::to_string(clocal);
+    //std::cout << "\n";
+    //std::cout << glm::to_string(clocal);
+    //std::cout << "\n";
     //need to apply reflected
     //don't need to do refraction
-    glm::vec3 reflectedDir = glm::reflect(ray.getDir(), sphereUnitNormal);
-    Ray reflected(interection_point ,reflectedDir);
+    glm::vec3 reflectedDir = glm::reflect(ray.getDir() , sphereUnitNormal);
+    Ray reflected(collision_point ,reflectedDir); //might need to normalize
     glm::vec3 reflectedContribution = raytrace(reflected, depth+1);
 
 
-    return clocal + reflectedContribution * intersectedSphere.getKr();
+    //std::cout << glm::to_string(reflectedContribution);
+    //std::cout << "\n";
+    clocal = glm::clamp(clocal, glm::vec3(0,0,0), glm::vec3(1,1,1));
+    return clocal ;//+ reflectedContribution * intersectedSphere.getKr();
   }
 
   Ray RayTracer::eyeToPixelRay(int c, int r, int nCols, int nRows){
@@ -149,7 +184,7 @@ namespace csc305{
 
     glm::vec3 dir(W*((2.0*c/nCols)-1.0), H*((2.0*r/nRows)-1.0), -N);
 
-    return Ray(eye, dir);
+    return Ray(eye, glm::normalize(dir)); // removed normalize
   }
 
   bool RayTracer::checkValidSolution(Ray ray){
@@ -171,8 +206,8 @@ namespace csc305{
     float A = glm::dot(dir, dir);
     float C = (glm::dot(start, start) - 1);
 
-    float t1 = -B/A + std::sqrt(B2 - A*C)/A;
-    float t2 = -B/A + std::sqrt(B2 - A*C)/A;
+    float t1 = -B/(A) + std::sqrt(B2 - A*C)/(A);
+    float t2 = -B/(A) - std::sqrt(B2 - A*C)/(A);
 
     if(t1 < t2){
       return t1;

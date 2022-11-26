@@ -28,6 +28,7 @@ namespace csc305{
     Kr_ = Kr;
     specExp_ = specExp;
     inverseMatrix_ = calcInverseTransform();
+    calcInverseTransposeMatrix_ = calcInverseTransposeTransform();
   }
 
   //Move Constructor
@@ -63,5 +64,23 @@ namespace csc305{
     glm::mat4 result = translation * scale;
 
     return glm::inverse(result);
+  }
+
+  glm::mat4 Sphere::calcInverseTransposeTransform(){
+    glm::vec4 col1(1,0,0,0);
+    glm::vec4 col2(0,1,0,0);
+    glm::vec4 col3(0,0,1,0);
+    glm::vec4 col4(pos_.x,pos_.y,pos_.z,1);
+    glm::mat4 translation(col1, col2, col3, col4);
+
+    glm::vec4 col21(scale_.x,0,0,0);
+    glm::vec4 col22(0,scale_.y,0,0);
+    glm::vec4 col23(0,0,scale_.z,0);
+    glm::vec4 col24(0,0,0,1);
+    glm::mat4 scale(col21, col22, col23, col24);
+
+    glm::mat4 result = translation * scale;
+
+    return glm::inverse(glm::transpose(result));
   }
 }

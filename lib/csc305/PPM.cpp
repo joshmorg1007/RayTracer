@@ -72,13 +72,11 @@ namespace csc305{
     fprintf(fp, "%d %d\n", width_, height_);
     fprintf(fp, "%d\n", maxVal);
 
-    int k = 0 ;
-    for(int j = 0; j < height_; j++) {
+    for(int j = height_-1; j >= 0; j--) {
 
       for( int i = 0 ; i < width_; i++)
       {
-        fprintf(fp," %d %d %d", (unsigned char)pixels_[k].x*255, (unsigned char)pixels_[k].y*255, (unsigned char)pixels_[k].z*255);
-        k++;
+        fprintf(fp," %d %d %d", (unsigned char)(pixels_[j * width_ + i].x*255), (unsigned char)(pixels_[j * width_ + i].y*255), (unsigned char)(pixels_[j * width_ + i].z*255));
       }
       fprintf(fp,"\n") ;
     }
