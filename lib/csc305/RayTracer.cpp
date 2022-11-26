@@ -194,9 +194,17 @@ namespace csc305{
     glm::vec3 start = ray.getStart();
     glm::vec3 dir = ray.getDir();
 
-    float B2 = (glm::dot(start,dir)) * (glm::dot(start,dir));
+    float B = glm::dot(start,dir);
+    float B2 = B * B;
     float A = glm::dot(dir, dir);
     float C = (glm::dot(start, start) - 1);
+
+    float t1 = -B/(A) + std::sqrt(B2 - A*C)/(A);
+    float t2 = -B/(A) - std::sqrt(B2 - A*C)/(A);
+
+    if(t1 < 0.0 && t2 < 0.0){
+      return false;
+    }
     return (B2 - A*C > 0);
   }
 
