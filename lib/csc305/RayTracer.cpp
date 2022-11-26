@@ -66,6 +66,9 @@ namespace csc305{
     Ray candidateInvertedRay;
     for(int i = 0; i < scene_.getNumSpheres(); i++){
       Sphere current = scene_.getSphere(i);
+      if(ray.getStartingName() == current.getName()){
+        continue;
+      }
       Ray invertedRay = ray.getInvertedRay(current.getInverseTransform());
 
       if(!checkValidSolution(invertedRay)){
@@ -81,8 +84,11 @@ namespace csc305{
     }
 
     // no intersections return background color
-    if(minSphereIndex == -1){
+    if(minSphereIndex == -1 && depth == 1){
       return scene_.getBackgroundColor();
+    }
+    else if (minSphereIndex == -1 && depth >= 1){
+      return glm::vec3(0,0,0);
     }
 
     glm::vec3 collision_point = ray.getRayPos(minT);
@@ -158,22 +164,12 @@ namespace csc305{
         clocal += pointLightContribution;
       }
     }
-    //clocal = glm::clamp(clocal, glm::vec3(0,0,0), glm::vec3(1,1,1));
-    //std::cout << glm::to_string(clocal);
-    //std::cout << "\n";
-    //std::cout << glm::to_string(clocal);
-    //std::cout << "\n";
-    //need to apply reflected
-    //don't need to do refraction
-    glm::vec3 reflectedDir = glm::reflect(ray.getDir() , sphereUnitNormal);
-    Ray reflected(collision_point ,reflectedDir); //might need to normalize
-    glm::vec3 reflectedContribution = raytrace(reflected, depth+1);
-
-
-    //std::cout << glm::to_string(reflectedContribution);
-    //std::cout << "\n";
     clocal = glm::clamp(clocal, glm::vec3(0,0,0), glm::vec3(1,1,1));
     if(intersectedSphere.getKr() != 0.0){
+      glm::vec3 reflectedDir = glm::reflect(ray.getDir() , sphereUnitNormal);
+      Ray reflected(collision_point ,reflectedDir);
+      reflected.setStartingName(intersectedSphere.getName());
+      glm::vec3 reflectedContribution = raytrace(reflected, depth+1);
       return clocal + reflectedContribution * intersectedSphere.getKr();
     }
     else{

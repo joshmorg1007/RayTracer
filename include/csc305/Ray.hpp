@@ -1,5 +1,6 @@
 #include "glm.hpp"
 #include "string_cast.hpp"
+#include <string>
 #include <iostream>
 
 #ifndef ray_h
@@ -43,10 +44,19 @@ namespace csc305{
         return dir_;
       }
 
+      void setStartingName(std::string name){
+        startingName_ = name;
+      }
+
+      std::string getStartingName(){
+        return startingName_;
+      }
+
     private:
       //Attributes
       glm::vec3 start_;
       glm::vec3 dir_;
+      std::string startingName_;
 
     };
 }
