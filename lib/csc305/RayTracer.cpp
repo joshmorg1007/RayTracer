@@ -63,6 +63,7 @@ namespace csc305{
 
     float minT = std::numeric_limits<float>::max();
     int minSphereIndex = -1;
+    Ray candidateInvertedRay;
     for(int i = 0; i < scene_.getNumSpheres(); i++){
       Sphere current = scene_.getSphere(i);
       Ray invertedRay = ray.getInvertedRay(current.getInverseTransform());
@@ -75,6 +76,7 @@ namespace csc305{
       if(intersection_time < minT){
         minT = intersection_time;
         minSphereIndex = i;
+        candidateInvertedRay = invertedRay;
       }
     }
 
@@ -88,8 +90,8 @@ namespace csc305{
     //Ray normalRay = ray.getInvertedRay(intersectedSphere.getInverseTransposeTransform());
     //glm::vec3 sphereNormal =normalRay.getDir();
     glm::mat4 inverseTranspose = intersectedSphere.getInverseTransposeTransform();
-    glm::vec3 normal = collision_point-intersectedSphere.getPos();
-    glm::vec4 normalExtended = glm::vec4(normal.x, normal.y, normal.z, 1);
+    glm::vec3 normal = candidateInvertedRay.getRayPos(minT);
+    glm::vec4 normalExtended = glm::vec4(normal.x, normal.y, normal.z, 0);
 
     glm::vec4 inverseTransposeNormalExtended = inverseTranspose * normalExtended;
     glm::vec3 sphereNormal = glm::vec3(inverseTransposeNormalExtended.x, inverseTransposeNormalExtended.y, inverseTransposeNormalExtended.z);
@@ -172,7 +174,7 @@ namespace csc305{
     //std::cout << glm::to_string(reflectedContribution);
     //std::cout << "\n";
     clocal = glm::clamp(clocal, glm::vec3(0,0,0), glm::vec3(1,1,1));
-    return clocal ;//+ reflectedContribution * intersectedSphere.getKr();
+    return clocal + reflectedContribution * intersectedSphere.getKr();
   }
 
   Ray RayTracer::eyeToPixelRay(int c, int r, int nCols, int nRows){
