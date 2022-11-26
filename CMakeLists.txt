@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # Specify project and identify languages used.
 project(csc305 CXX)
 
+
 #include(Sanitizers.cmake)
 
 add_library(ray_tracer_lib ${CMAKE_SOURCE_DIR}/lib/csc305/InputParser.cpp
@@ -27,5 +28,7 @@ target_include_directories(ray_tracer_lib PUBLIC
                         )
 
 # Add a program target called answer
-add_executable(ray_tracer app/main.cpp)
-target_link_libraries(ray_tracer glm ray_tracer_lib)
+add_executable(RayTracer app/main.cpp)
+target_link_libraries(RayTracer glm ray_tracer_lib)
+
+install(TARGETS RayTracer DESTINATION ${CMAKE_SOURCE_DIR})
