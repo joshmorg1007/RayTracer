@@ -221,7 +221,7 @@ namespace csc305{
     float t1 = -B/(A) + std::sqrt(B2 - A*C)/(A);
     float t2 = -B/(A) - std::sqrt(B2 - A*C)/(A);
 
-    if(t1 < t2 && glm::all(glm::greaterThan(glm::abs(start - ray.getRayPos(t1)), glm::vec3(0.00001, 0.00001, 0.00001)))){
+    if(t1 < t2){
       return t1;
     }
     else{
