@@ -165,7 +165,7 @@ namespace csc305{
       }
     }
     clocal = glm::clamp(clocal, glm::vec3(0,0,0), glm::vec3(1,1,1));
-    if(intersectedSphere.getKr() != 0.0){
+    if(intersectedSphere.getKr() != 0.0 && collision_point.y > 0.1){
       glm::vec3 reflectedDir = glm::reflect(ray.getDir() , sphereUnitNormal);
       Ray reflected(collision_point ,reflectedDir);
       reflected.setStartingName(intersectedSphere.getName());
