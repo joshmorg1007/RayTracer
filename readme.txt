@@ -1,3 +1,4 @@
+Josh Morgan -- V00919952 -- CSC 305 -- Assignment 3
 #### Implementation Notes ####
 
 I have implemented every testcase fully except for "testImgPlane.txt" where I couldn't get the
