@@ -187,7 +187,8 @@ namespace csc305{
 
     glm::vec3 dir(W*((2.0*c/nCols)-1.0), H*((2.0*r/nRows)-1.0), -N);
 
-    return Ray(eye, glm::normalize(dir)); // removed normalize
+    float x = -N/dir.z;
+    return Ray(eye + dir*x, glm::normalize(dir)); // removed normalize
   }
 
   bool RayTracer::checkValidSolution(Ray ray){
