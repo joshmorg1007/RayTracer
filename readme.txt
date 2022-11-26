@@ -1,3 +1,7 @@
+#### Implementation Notes ####
+
+I have implemented every testcase fully except for "testImgPlane.txt" where I couldn't get the
+lighting quite right for the sphere that clips with the image plane.
 
 #### BUILD / INSTALL Instructions ####
 Assumption: On Graphics lab windows machine
